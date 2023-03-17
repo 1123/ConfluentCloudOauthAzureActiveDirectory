@@ -1,0 +1,2 @@
+$CONFLUENT env use $ENVIRONMENT
+$CONFLUENT kafka cluster use $LOGICAL_CLUSTER_ID

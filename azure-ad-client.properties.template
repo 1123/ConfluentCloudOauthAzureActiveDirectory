@@ -1,0 +1,12 @@
+bootstrap.servers=$BOOTSTRAP_SERVERS
+security.protocol=SASL_SSL
+sasl.oauthbearer.token.endpoint.url=https://login.microsoftonline.com/$AZURE_TENANT/oauth2/v2.0/token
+sasl.login.callback.handler.class=org.apache.kafka.common.security.oauthbearer.secured.OAuthBearerLoginCallbackHandler
+sasl.mechanism=OAUTHBEARER
+sasl.jaas.config= \
+  org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required \
+    clientId='$CLIENT_ID' \
+    scope='$CLIENT_ID/.default' \
+    clientSecret='$CLIENT_SECRET' \
+    extension_logicalCluster='$LOGICAL_CLUSTER_ID' \
+    extension_identityPoolId='$IDENTITY_POOL_ID';
