@@ -10,3 +10,18 @@ sasl.jaas.config= \
     clientSecret='$CLIENT_SECRET' \
     extension_logicalCluster='$LOGICAL_CLUSTER_ID' \
     extension_identityPoolId='$IDENTITY_POOL_ID';
+
+schema.registry.url=$SCHEMA_REGISTRY_URL
+bearer.auth.credentials.source=SASL_OAUTHBEARER_INHERIT
+bearer.auth.logical.cluster=$SR_LOGICAL_CLUSTER_ID
+# bearer.auth.credentials.source=OAUTHBEARER
+# bearer.auth.issuer.endpoint.url=https://login.microsoftonline.com/$AZURE_TENANT/oauth2/v2.0/token
+# bearer.auth.client.id=$CLIENT_ID
+# bearer.auth.client.secret=$CLIENT_SECRET
+# bearer.auth.scope=$CLIENT_ID/.default
+# bearer.auth.logical.cluster=$SR_LOGICAL_CLUSTER_ID
+# bearer.auth.identity.pool.id=$IDENTITY_POOL_ID
+
+# for the Java app
+value.serializer=io.confluent.kafka.serializers.json.KafkaJsonSchemaSerializer
+key.serializer=org.apache.kafka.common.serialization.StringSerializer
