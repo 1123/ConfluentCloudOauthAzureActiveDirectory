@@ -34,7 +34,7 @@ resource "confluent_identity_provider" "azure" {
   jwks_uri     = "https://login.microsoftonline.com/common/discovery/v2.0/keys"
 }
 
-resource "confluent_identity_pool" "example" {
+resource "confluent_identity_pool" "all_identities" {
   identity_provider {
     id = confluent_identity_provider.azure.id
   }
@@ -79,14 +79,14 @@ resource "confluent_api_key" "topic-manager-kafka-api-key" {
   ]
 }
 
-resource "confluent_role_binding" "super-id-pool-developer-write-t1" {
-  principal   = "User:${confluent_identity_pool.example.id}"
+resource "confluent_role_binding" "all_identities-developer-write-t1" {
+  principal   = "User:${confluent_identity_pool.all_identities.id}"
   role_name   = "DeveloperWrite"
   crn_pattern = "${confluent_kafka_cluster.standard.rbac_crn}/kafka=${confluent_kafka_cluster.standard.id}/topic=${confluent_kafka_topic.t1.topic_name}"
 }
 
-resource "confluent_role_binding" "super-id-pool-developer-write-json-schema-topic" {
-  principal   = "User:${confluent_identity_pool.example.id}"
+resource "confluent_role_binding" "all_identities-developer-write-json-schema-topic" {
+  principal   = "User:${confluent_identity_pool.all_identities.id}"
   role_name   = "DeveloperWrite"
   crn_pattern = "${confluent_kafka_cluster.standard.rbac_crn}/kafka=${confluent_kafka_cluster.standard.id}/topic=${confluent_kafka_topic.json-schema-topic.topic_name}"
 }
@@ -141,3 +141,5 @@ resource "confluent_schema_registry_cluster" "essentials" {
     prevent_destroy = true
   }
 }
+
+

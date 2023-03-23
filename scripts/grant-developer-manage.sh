@@ -6,12 +6,12 @@ $CONFLUENT iam rbac role-binding create \
   --principal User:$IDENTITY_POOL_ID \
   --role DeveloperManage \
   --resource Topic:t1 \
-  --environment $ENVIRONMENT \
+  --environment $ENVIRONMENT_ID \
   --kafka-cluster-id $LOGICAL_CLUSTER_ID
 
 $CONFLUENT iam rbac role-binding create \
   --principal User:$IDENTITY_POOL_ID \
   --role DeveloperManage \
   --resource Topic:json-schema-topic \
-  --environment $ENVIRONMENT \
+  --environment $ENVIRONMENT_ID \
   --kafka-cluster-id $LOGICAL_CLUSTER_ID
