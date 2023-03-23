@@ -142,4 +142,8 @@ resource "confluent_schema_registry_cluster" "essentials" {
   }
 }
 
-
+resource "confluent_role_binding" "all_identities_dw_json_schema_topic-value" {
+  principal   = "User:${confluent_identity_pool.all_identities.id}"
+  role_name   = "DeveloperWrite"
+  crn_pattern = "${confluent_schema_registry_cluster.essentials.resource_name}/subject=json-schema-topic-value"
+}
