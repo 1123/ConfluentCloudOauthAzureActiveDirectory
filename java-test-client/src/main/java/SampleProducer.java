@@ -22,7 +22,7 @@ public class SampleProducer {
         properties.load(stream);
         try (KafkaProducer<String, Person> kafkaProducer = new KafkaProducer<>(properties)) {
             var result = kafkaProducer.send(
-                    new ProducerRecord<>("json-schema-topic", "id1", new Person("John"))
+                    new ProducerRecord<>("person-topic", "id1", new Person("John"))
             );
             result.get();
         }

@@ -85,6 +85,12 @@ resource "confluent_role_binding" "all_identities-developer-write-t1" {
   crn_pattern = "${confluent_kafka_cluster.standard.rbac_crn}/kafka=${confluent_kafka_cluster.standard.id}/topic=${confluent_kafka_topic.t1.topic_name}"
 }
 
+resource "confluent_role_binding" "all_identities-developer-write-person-topic" {
+  principal   = "User:${confluent_identity_pool.all_identities.id}"
+  role_name   = "DeveloperWrite"
+  crn_pattern = "${confluent_kafka_cluster.standard.rbac_crn}/kafka=${confluent_kafka_cluster.standard.id}/topic=${confluent_kafka_topic.person-topic.topic_name}"
+}
+
 resource "confluent_role_binding" "all_identities-developer-write-json-schema-topic" {
   principal   = "User:${confluent_identity_pool.all_identities.id}"
   role_name   = "DeveloperWrite"
@@ -96,6 +102,19 @@ resource "confluent_kafka_topic" "t1" {
     id = confluent_kafka_cluster.standard.id
   }
   topic_name       = "t1"
+  partitions_count = 6
+  rest_endpoint    = confluent_kafka_cluster.standard.rest_endpoint
+  credentials {
+    key    = confluent_api_key.topic-manager-kafka-api-key.id
+    secret = confluent_api_key.topic-manager-kafka-api-key.secret
+  }
+}
+
+resource "confluent_kafka_topic" "person-topic" {
+  kafka_cluster {
+    id = confluent_kafka_cluster.standard.id
+  }
+  topic_name       = "person-topic"
   partitions_count = 6
   rest_endpoint    = confluent_kafka_cluster.standard.rest_endpoint
   credentials {
@@ -140,6 +159,12 @@ resource "confluent_schema_registry_cluster" "essentials" {
   lifecycle {
     prevent_destroy = true
   }
+}
+
+resource "confluent_role_binding" "all_identities_dw_person_topic-value" {
+  principal   = "User:${confluent_identity_pool.all_identities.id}"
+  role_name   = "DeveloperWrite"
+  crn_pattern = "${confluent_schema_registry_cluster.essentials.resource_name}/subject=person-topic-value"
 }
 
 resource "confluent_role_binding" "all_identities_dw_json_schema_topic-value" {
