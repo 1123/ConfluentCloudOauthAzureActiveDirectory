@@ -116,3 +116,28 @@ resource "confluent_kafka_topic" "json-schema-topic" {
     secret = confluent_api_key.topic-manager-kafka-api-key.secret
   }
 }
+
+data "confluent_schema_registry_region" "example" {
+  cloud   = "AWS"
+  region  = "us-east-2"
+  package = "ESSENTIALS"
+}
+
+resource "confluent_schema_registry_cluster" "essentials" {
+  package = data.confluent_schema_registry_region.example.package
+
+  environment {
+    id = confluent_environment.benedikt-tf.id
+  }
+
+  region {
+    # See https://docs.confluent.io/cloud/current/stream-governance/packages.html#stream-governance-regions
+    # Schema Registry and Kafka clusters can be in different regions as well as different cloud providers,
+    # but you should to place both in the same cloud and region to restrict the fault isolation boundary.
+    id = data.confluent_schema_registry_region.example.id
+  }
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
