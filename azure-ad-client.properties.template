@@ -25,3 +25,8 @@ bearer.auth.logical.cluster=$SR_LOGICAL_CLUSTER_ID
 # for the Java app
 value.serializer=io.confluent.kafka.serializers.json.KafkaJsonSchemaSerializer
 key.serializer=org.apache.kafka.common.serialization.StringSerializer
+group.id=person-consumer
+value.deserializer=io.confluent.kafka.serializers.json.KafkaJsonSchemaDeserializer
+key.deserializer=org.apache.kafka.common.serialization.StringDeserializer
+
+

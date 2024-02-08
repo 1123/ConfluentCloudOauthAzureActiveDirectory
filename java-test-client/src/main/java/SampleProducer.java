@@ -1,5 +1,7 @@
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
@@ -10,8 +12,11 @@ import java.util.concurrent.ExecutionException;
 
 @Data
 @AllArgsConstructor
+@ToString
+@NoArgsConstructor
 class Person {
     String firstname;
+    String lastname;
 }
 
 public class SampleProducer {
@@ -22,7 +27,7 @@ public class SampleProducer {
         properties.load(stream);
         try (KafkaProducer<String, Person> kafkaProducer = new KafkaProducer<>(properties)) {
             var result = kafkaProducer.send(
-                    new ProducerRecord<>("person-topic", "id1", new Person("John"))
+                    new ProducerRecord<>("person-topic", "id1", new Person("John", "Doe"))
             );
             result.get();
         }
